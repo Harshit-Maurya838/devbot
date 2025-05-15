@@ -250,38 +250,41 @@ const commands = {
         .setFooter({ text: "Dev Network | Choose Your Role" })
         .setTimestamp();
 
-      const row = new ActionRowBuilder().addComponents(
+      const row1 = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-          .setCustomId("Full Stack Developer")
+          .setCustomId("fullstack_dev")
           .setLabel("Full Stack Developer")
           .setStyle(ButtonStyle.Success),
         new ButtonBuilder()
-          .setCustomId("Game Developers")
+          .setCustomId("game_dev")
           .setLabel("Game Developer")
           .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-          .setCustomId("App Developers")
+          .setCustomId("app_dev")
           .setLabel("App Developer")
           .setStyle(ButtonStyle.Danger),
         new ButtonBuilder()
-          .setCustomId("API Developers")
+          .setCustomId("api_dev")
           .setLabel("API Developer")
           .setStyle(ButtonStyle.Primary),
         new ButtonBuilder()
-          .setCustomId("Web Developers")
+          .setCustomId("web_dev")
           .setLabel("Web Developer")
-          .setStyle(ButtonStyle.Primary),
+          .setStyle(ButtonStyle.Primary)
+      );
+
+      const row2 = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-          .setCustomId("AI/ML Developers")
+          .setCustomId("ai_ml_dev")
           .setLabel("AI/ML Developer")
           .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-          .setCustomId("Developers")
+          .setCustomId("dev")
           .setLabel("Developer")
           .setStyle(ButtonStyle.Secondary)
       );
 
-      message.channel.send({ embeds: [rolesEmbed], components: [row] });
+      message.channel.send({ embeds: [rolesEmbed], components: [row1, row2] });
     },
   },
   ping: {
@@ -356,6 +359,36 @@ client.on("messageCreate", (message) => {
     }
 
     command.execute(message, args);
+  }
+});
+
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isButton()) return;
+  const roleId = {
+    fullstack_dev: "1368965142921875607",
+    game_dev: "1368965142921875606",
+    app_dev: "1368965142921875605",
+    api_dev: "1368965142921875604",
+    web_dev: "1368965142921875603",
+    ai_ml_dev: "1368965142921875602",
+    dev: "1368965142921875601",
+  }[interaction.customId];
+
+  if (roleId) {
+    const member = interaction.member;
+    if (member.roles.cache.has(roleId)) {
+      await member.roles.remove(roleId);
+      await interaction.reply({
+        content: `🗑️ Removed your role.`,
+        ephemeral: true,
+      });
+    } else {
+      await member.roles.add(roleId);
+      await interaction.reply({
+        content: `✅ Role assigned successfully!`,
+        ephemeral: true,
+      });
+    }
   }
 });
 
