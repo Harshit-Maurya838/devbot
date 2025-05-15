@@ -252,31 +252,31 @@ const commands = {
 
       const row = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-          .setCustomId("fullstack_dev")
+          .setCustomId("Full Stack Developer")
           .setLabel("Full Stack Developer")
           .setStyle(ButtonStyle.Success),
         new ButtonBuilder()
-          .setCustomId("game_dev")
+          .setCustomId("Game Developers")
           .setLabel("Game Developer")
           .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-          .setCustomId("app_dev")
+          .setCustomId("App Developers")
           .setLabel("App Developer")
           .setStyle(ButtonStyle.Danger),
         new ButtonBuilder()
-          .setCustomId("api_dev")
+          .setCustomId("API Developers")
           .setLabel("API Developer")
           .setStyle(ButtonStyle.Primary),
         new ButtonBuilder()
-          .setCustomId("web_dev")
+          .setCustomId("Web Developers")
           .setLabel("Web Developer")
           .setStyle(ButtonStyle.Primary),
         new ButtonBuilder()
-          .setCustomId("ai_ml_dev")
+          .setCustomId("AI/ML Developers")
           .setLabel("AI/ML Developer")
           .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-          .setCustomId("dev")
+          .setCustomId("Developers")
           .setLabel("Developer")
           .setStyle(ButtonStyle.Secondary)
       );
