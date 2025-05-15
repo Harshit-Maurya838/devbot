@@ -307,7 +307,6 @@ const commands = {
         .setTitle("💡 Dev Network Bot - Help")
         .setDescription("Here are the commands you can use:")
         .addFields(
-          { name: "🔹 **!rules**", value: "Displays the server rules." },
           {
             name: "🔹 **!code <language> <code>**",
             value:
