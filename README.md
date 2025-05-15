@@ -52,7 +52,7 @@ Welcome to the **Dev Network Bot**, a custom Discord bot designed to enhance col
 4. **Run the Bot**
 
    ```bash
-   node index.js
+   npm start
    ```
 
 ## 📚 Commands
