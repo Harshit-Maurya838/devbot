@@ -16,7 +16,9 @@ module.exports = {
     async execute(message, args) {
       const suggestion = args.join(" ");
       if (!suggestion) {
-        return message.reply("❗ Please provide a suggestion. Example: `!suggest Add a new gaming channel`");
+        return message.reply(
+          "❗ Please provide a suggestion. Example: `!suggest Add a new gaming channel`"
+        );
       }
 
       // Create Embed
@@ -27,14 +29,17 @@ module.exports = {
         .addFields([
           {
             name: "How to Use `!suggest`",
-            value: "Share your ideas and improvements for the server.\n**Example:** `!suggest Add a new gaming channel`",
+            value:
+              "Share your ideas and improvements for the server.\n**Example:** `!suggest Add a new gaming channel`",
           },
         ])
         .setFooter({ text: `Suggested by ${message.author.tag}` })
         .setTimestamp();
 
       // Send the embed to the suggestions channel
-      const channel = message.guild.channels.cache.get(process.env.SUGGESTION_CHANNEL_ID);
+      const channel = message.guild.channels.cache.get(
+        process.env.SUGGESTION_CHANNEL_ID
+      );
       if (!channel) return message.reply("❗ Suggestions channel not found.");
 
       // Send the embed and delete the original message
@@ -48,7 +53,9 @@ module.exports = {
     async execute(message, args) {
       const report = args.join(" ");
       if (!report) {
-        return message.reply("❗ Please provide a report. Example: `!report Bot is not responding to commands`");
+        return message.reply(
+          "❗ Please provide a report. Example: `!report Bot is not responding to commands`"
+        );
       }
 
       // Create Embed
@@ -59,7 +66,8 @@ module.exports = {
         .addFields([
           {
             name: "How to Use `!report`",
-            value: "Report bugs or issues you encounter in the server or bot.\n**Example:** `!report Bot is not responding to commands`",
+            value:
+              "Report bugs or issues you encounter in the server or bot.\n**Example:** `!report Bot is not responding to commands`",
           },
         ])
         .setFooter({ text: `Reported by ${message.author.tag}` })
@@ -74,7 +82,9 @@ module.exports = {
       );
 
       // Send the embed to the reports channel
-      const channel = message.guild.channels.cache.get(process.env.REPORT_CHANNEL_ID);
+      const channel = message.guild.channels.cache.get(
+        process.env.REPORT_CHANNEL_ID
+      );
       if (!channel) return message.reply("❗ Reports channel not found.");
 
       // Send the embed and delete the original message
@@ -409,7 +419,15 @@ module.exports = {
             name: "🔹 **!hello**",
             value: "Greets the user with a friendly message.",
           },
-          { name: "🔹 **!help**", value: "Displays this help message." }
+          { name: "🔹 **!help**", value: "Displays this help message." },
+          {
+            name: "🔹 **!suggest <message>**",
+            value: "Share your server improvement suggestions.",
+          },
+          {
+            name: "🔹 **!report <issue>**",
+            value: "Report a problem with the server or bot.",
+          }
         )
         .setFooter({ text: "Dev Network | Together, We Build the Future 🚀" })
         .setTimestamp();

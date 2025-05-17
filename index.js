@@ -110,11 +110,12 @@ client.on("interactionCreate", async (interaction) => {
           });
         }
 
-        const resolvedBy = `<@${adminId}>`;
+        const resolvedBy = interaction.user.username;
 
         const resolvedEmbed = EmbedBuilder.from(message.embeds[0])
           .setColor("#2ECC71")
-          .setFooter({ text: `Resolved by ${resolvedBy}` });
+          .setFooter({ text: "Resolved by " + resolvedBy.split('#')[0] });
+        console.log("Resolved by admin userId: ", adminId)
 
         await message.edit({
           embeds: [resolvedEmbed],
