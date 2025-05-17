@@ -117,15 +117,22 @@ client.on("interactionCreate", async (interaction) => {
           .setFooter({ text: "Resolved by " + resolvedBy.split('#')[0] });
         console.log("Resolved by admin userId: ", adminId)
 
-        await message.edit({
-          embeds: [resolvedEmbed],
-          components: [],
-        });
-
-        await interaction.reply({
-          content: `✅ Marked as resolved by ${resolvedBy}.`,
-          ephemeral: true,
-        });
+        if (message && message.editable) {
+          await message.edit({
+            embeds: [resolvedEmbed],
+            components: [],
+          });
+          await interaction.reply({
+            content: `✅ Marked as resolved by ${resolvedBy}.`,
+            ephemeral: true,
+          });
+        } else {
+          console.error("❌ Message not found or not editable.");
+          await interaction.reply({
+            content: "🚫 Failed to resolve the message. It may have already been deleted.",
+            ephemeral: true,
+          });
+        }
       } catch (error) {
         console.error("❌ Error in resolve button handler:", error);
         await interaction.reply({
