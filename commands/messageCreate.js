@@ -11,6 +11,103 @@ const {
 const axios = require("axios");
 
 module.exports = {
+  suggest: {
+    isAdminOnly: false,
+    async execute(message, args) {
+      const suggestion = args.join(" ");
+      if (!suggestion) {
+        return message.reply("❗ Please provide a suggestion. Example: `!suggest Add a new gaming channel`");
+      }
+
+      // Create Embed
+      const embed = new EmbedBuilder()
+        .setColor("Blue")
+        .setTitle("💡 New Suggestion")
+        .setDescription(suggestion)
+        .addFields([
+          {
+            name: "How to Use `!suggest`",
+            value: "Share your ideas and improvements for the server.\n**Example:** `!suggest Add a new gaming channel`",
+          },
+        ])
+        .setFooter({ text: `Suggested by ${message.author.tag}` })
+        .setTimestamp();
+
+      // Send the embed to the suggestions channel
+      const channel = message.guild.channels.cache.get(process.env.SUGGESTION_CHANNEL_ID);
+      if (!channel) return message.reply("❗ Suggestions channel not found.");
+
+      // Send the embed and delete the original message
+      await channel.send({ embeds: [embed] });
+      await message.delete();
+    },
+  },
+
+  report: {
+    isAdminOnly: false,
+    async execute(message, args) {
+      const report = args.join(" ");
+      if (!report) {
+        return message.reply("❗ Please provide a report. Example: `!report Bot is not responding to commands`");
+      }
+
+      // Create Embed
+      const embed = new EmbedBuilder()
+        .setColor("Red")
+        .setTitle("🚨 New Report")
+        .setDescription(report)
+        .addFields([
+          {
+            name: "How to Use `!report`",
+            value: "Report bugs or issues you encounter in the server or bot.\n**Example:** `!report Bot is not responding to commands`",
+          },
+        ])
+        .setFooter({ text: `Reported by ${message.author.tag}` })
+        .setTimestamp();
+
+      // Create Resolved Button
+      const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId(`resolve_${message.id}`)
+          .setLabel("Mark as Resolved")
+          .setStyle(ButtonStyle.Danger)
+      );
+
+      // Send the embed to the reports channel
+      const channel = message.guild.channels.cache.get(process.env.REPORT_CHANNEL_ID);
+      if (!channel) return message.reply("❗ Reports channel not found.");
+
+      // Send the embed and delete the original message
+      const reportMessage = await channel.send({
+        embeds: [embed],
+        components: [row],
+      });
+      await message.delete();
+
+      // Handle button interaction
+      const filter = (interaction) =>
+        interaction.customId === `resolve_${message.id}` &&
+        interaction.member.permissions.has("Administrator");
+
+      const collector = reportMessage.createMessageComponentCollector({
+        filter,
+        max: 1,
+      });
+
+      collector.on("collect", async (interaction) => {
+        const resolvedEmbed = EmbedBuilder.from(embed)
+          .setColor("Green")
+          .addFields([
+            { name: "Status", value: `✅ Resolved by ${interaction.user.tag}` },
+          ]);
+
+        await interaction.update({
+          embeds: [resolvedEmbed],
+          components: [],
+        });
+      });
+    },
+  },
   rules: {
     isAdminOnly: true,
     execute: (message) => {

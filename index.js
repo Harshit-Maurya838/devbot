@@ -96,6 +96,43 @@ client.on("interactionCreate", async (interaction) => {
       });
     }
   }
+
+  // Handle Suggest and Report Resolved Button
+    if (interaction.customId.startsWith('resolve_')) {
+      try {
+        const message = interaction.message;
+        const adminId = interaction.user.id;
+
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
+          return interaction.reply({
+            content: "⛔ Only admins can resolve this.",
+            ephemeral: true,
+          });
+        }
+
+        const resolvedBy = `<@${adminId}>`;
+
+        const resolvedEmbed = EmbedBuilder.from(message.embeds[0])
+          .setColor("#2ECC71")
+          .setFooter({ text: `Resolved by ${resolvedBy}` });
+
+        await message.edit({
+          embeds: [resolvedEmbed],
+          components: [],
+        });
+
+        await interaction.reply({
+          content: `✅ Marked as resolved by ${resolvedBy}.`,
+          ephemeral: true,
+        });
+      } catch (error) {
+        console.error("❌ Error in resolve button handler:", error);
+        await interaction.reply({
+          content: "🚫 Failed to resolve the message. Please try again later.",
+          ephemeral: true,
+        });
+      }
+    }
 });
 
 // Login to Discord
