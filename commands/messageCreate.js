@@ -1,3 +1,15 @@
+const {
+  Client,
+  GatewayIntentBits,
+  Partials,
+  EmbedBuilder,
+  PermissionsBitField,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require("discord.js");
+const axios = require("axios");
+
 module.exports = {
   rules: {
     isAdminOnly: true,
