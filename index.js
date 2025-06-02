@@ -67,6 +67,7 @@ client.on("interactionCreate", async (interaction) => {
     web_dev: process.env.web_dev,
     ai_ml_dev: process.env.ai_ml_dev,
     dev: process.env.dev,
+    collab: process.env.collab,
   }[interaction.customId];
 
   if (roleId) {

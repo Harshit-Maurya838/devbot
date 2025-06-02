@@ -372,6 +372,10 @@ module.exports = {
         new ButtonBuilder()
           .setCustomId("dev")
           .setLabel("Developer")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("collab")
+          .setLabel("Want Collabration")
           .setStyle(ButtonStyle.Secondary)
       );
 
